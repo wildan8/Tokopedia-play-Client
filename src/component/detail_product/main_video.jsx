@@ -3,6 +3,7 @@ import Header from "./header";
 
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Axios from "axios";
 
 export default function MainVideo() {
   const params = useParams();
@@ -10,15 +11,16 @@ export default function MainVideo() {
 
   async function fetchData() {
     try {
-      const response = await fetch(`/thumbnail/${params.thumbsID}`);
-      const json = await response.json();
-      return json;
+      const response = await Axios.get(
+        process.env.REACT_APP_DEFAULT_API_URL + `/thumbnail/${params.thumbsID}`
+      );
+      return response;
     } catch (error) {
       console.error(error);
     }
   }
   useEffect(() => {
-    fetchData().then((data) => setThumbs(data));
+    fetchData().then((data) => setThumbs(data.data));
   }, []);
 
   return (

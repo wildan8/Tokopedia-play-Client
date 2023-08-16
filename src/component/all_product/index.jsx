@@ -4,7 +4,8 @@ import useFetch from "../../Hooks/useAllData";
 import {TailSpin} from "react-loader-spinner";
 
 const Index = () => {
-  const { data, loading } = useFetch("/thumbnail");
+  const { data, loading } = useFetch(process.env.REACT_APP_DEFAULT_API_URL+"/thumbnail");
+  console.log(data)
 
   return (
     <body className="bg-darkTokPed p-5 h-screen text-white">
@@ -16,7 +17,7 @@ const Index = () => {
           </div>
         ) : (
           <div className="grid grid-cols-6 gap-2">
-            {data &&
+            {
               data.map((d) => (
                 <Card
                   key={d._id}

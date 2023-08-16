@@ -1,41 +1,40 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import Axios from "axios";
 
 export default function InputComment({ socket }) {
   const [dataUsername, setUsername] = useState("");
   const [dataReplyComment, setReplyComment] = useState("");
   const params = useParams();
+  const thumbs =params.thumbsID
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`/comment/${params.thumbsID}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await Axios.post(
+        `${process.env.REACT_APP_DEFAULT_API_URL}/comment/${params.thumbsID}`,
+        {
           username: dataUsername,
           replyComment: dataReplyComment,
           thumbsID: params.thumbsID,
-        }),
-      });
+        }
+      );
 
-      if (response.ok) {
+      if (response.status === 201) {
         console.log("Item added successfully");
 
         socket.emit("commentAdded", {
           dataUsername,
           dataReplyComment,
+          thumbs
+          
+         
         });
+
         setReplyComment("");
         setUsername("");
       } else {
-        console.error(
-          "Error adding item",
-          response.status,
-          response.statusText
-        );
+        console.error("Error adding item", response.status, response.statusText);
       }
     } catch (error) {
       console.error("An error occurred", error);

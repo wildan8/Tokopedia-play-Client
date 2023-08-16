@@ -1,6 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Axios from "axios"
+
 
 export default function LeftProd() {
   const params = useParams();
@@ -8,15 +10,14 @@ export default function LeftProd() {
 
   async function fetchData() {
     try {
-      const response = await fetch(`/product-detail/${params.thumbsID}`);
-      const json = await response.json();
-      return json;
+      const response = await Axios.get(process.env.REACT_APP_DEFAULT_API_URL +`/product-detail/${params.thumbsID}`);      
+      return response;
     } catch (error) {
       console.error(error);
     }
   }
   useEffect(() => {
-    fetchData().then((data) => setProduct(data));
+    fetchData().then((data) => setProduct(data.data));
   }, []);
 
   return (
