@@ -11,9 +11,7 @@ export default function Comment() {
   const params = useParams();
   const [comment, setComment] = useState([]);
   const [loading, setLoading] = useState(true);
-  const socket = io(process.env.REACT_APP_DEFAULT_API_URL, {
-    withCredentials: true, // You might need this depending on your setup
-  });
+  const socket = io();
 
   async function fetchData() {
     try {
