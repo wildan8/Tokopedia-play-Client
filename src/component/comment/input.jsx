@@ -26,9 +26,7 @@ export default function InputComment({ socket }) {
         socket.emit("commentAdded", {
           dataUsername,
           dataReplyComment,
-          thumbs
-          
-         
+          thumbs,
         });
 
         setReplyComment("");
