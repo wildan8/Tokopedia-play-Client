@@ -12,6 +12,7 @@ export default function Comment() {
   const [comment, setComment] = useState([]);
   const [loading, setLoading] = useState(true);
   const socket = io(process.env.REACT_APP_DEFAULT_API_URL, {
+    transports: ["websocket"],
     withCredentials: true, // You might need this depending on your setup
   });
 
